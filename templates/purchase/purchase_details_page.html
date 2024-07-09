@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% include 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shareholder Information</title>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <style>
+        /* Hide CSV, PDF, Excel buttons */
+        .dt-buttons {
+            display: none !important;
+        }
+
+        .financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 700px; /* Adjust the margin as needed */
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            margin-right: 100px;
+            padding: 5px;
+        }
+        .search-container button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+       
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        .edit-delete-buttons {
+            text-align: center;
+        }
+        .edit-delete-buttons a {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header">
+            <div class="navbar2">
+                <p class="financial-year">Purchase Detailss</p>
+                <ol style="margin-right: 20px;" class="breadcrumb"><br>
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="/dashboard/"> &nbsp;&nbsp;Home</a></li>
+                    <li>Masters</li>
+                    <li class="active">Purchase details</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="container mt-4" style="background-color: white;">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="search-container">
+                        <button style="margin-left: 800px; margin-top: 20px;" class="btn btn-danger btn-sm" onclick="window.location.href='/purchase_add_page/'"><i class="fa fa-pencil-square-o"></i>&nbsp; Add Purchase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 table-container">
+                    <table id="shareholderTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>SINO</th>
+                                <th>INVOICE</th>
+                                <th>SUPPLIER NMAE</th>
+                                <th>PURCHASE DATE</th>
+                                <th>ITEM COOUNT</th>
+                                <th>TOTAL PRICE</th>
+                                <th>VIEW INVOICE</th>
+                                <th>EDIT/DELETE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in det %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ i.purchased_prod.bill_no }}</td>
+                                <td>{{ i.vendor.name }}</td>
+                                <td>{{ i.purchased_prod.purchase_date }}</td>
+                                <td>{{ i.purchased_prod.qty_total }}</td>
+                                
+                                <td>{{ i.purchased_prod.total_amount }}</td>
+                                <td><button class="btn btn-sm btn-secondary btn-icon custom-print-button" onclick='window.location.href="/invoice/{{i.id}}"''>
+                                    <i class="fas fa-print"></i> Print</button></td>
+                                <td class="edit-delete-buttons">
+                                    <a href="/edit_purchase/{{ i.id }}"><i class="fa fa-pencil-square-o"></i></a>
+                                    <a href="/del_purchase/{{ i.id}}" onclick="return confirm('Do you want to delete this entry?');"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#shareholderTable').DataTable();
+        });
+    </script>
+</body>
+</html>

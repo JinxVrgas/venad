@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Target Material Design Bootstrap Admin Template</title> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}" media="screen,projection" />
+    <!-- Bootstrap Styles-->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="{% static 'js/morris/morris-0.4.3.min.css' %}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="{% static 'css/custom-styles.css' %}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'js/Lightweight-Chart/cssCharts.css' %}"> 
+    <style>
+        .navbar2 {
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+        }
+        .financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 20px; /* Adjust the margin 
+            as needed */
+        }
+        .current-date {
+            padding-top: 10px;
+            margin-left: 250px;
+            margin-right: 150px;
+            color: rgb(73, 73, 73);
+        }
+
+    </style>
+</head>
+
+<body>
+    
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle waves-effect waves-dark" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand waves-effect waves-dark" href="/dashboard/"><strong style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VENAD</strong></a>
+				
+		<div id="sideNav" href="/dashboard/"><i class="material-icons dp48">toc</i></div>
+            </div>
+            <img src="{% static 'img/logo.jpg' %}" alt="Logo" width = "80" height = "50" >
+            <ul class="nav navbar-top-links navbar-right"> 				
+				<li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown2"><i class="fa fa-bell fa-fw"></i> </a></li>
+                <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>{{ user.username }}</b></a></li>
+                <li><a id="sign-out-link" class="waves-effect waves-dark" href="/"><i class="fa fa-sign-out fa-fw"></i></a></li>
+            </ul>
+        </nav>
+		<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+<li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+</li>
+<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+</li> 
+<li><a href="/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+</li>
+</ul>
+<ul id="dropdown2" class="dropdown-content w250">
+  <li>
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+</ul>
+
+
+	   <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <li>
+                        <a class="active-menu waves-effect waves-dark" href="/dashboard/"><i class="fa fa-dashboard"></i> Dashboard</a>
+                    </li>
+
+                    <li>
+                        <a  class="waves-effect waves-dark"><i class="fa fa-gear"></i> Settings <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/financialyear/">Financial Year</a>
+                            </li>
+                            <li>
+                                <a href="/changepassword/">Change Password</a>
+                            </li>
+                            <li>
+                                <a href="/route/">Routesale Login</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-gear"></i> Integration-Section<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Batch Allotment</a>
+                            </li>
+                            <li>
+                                <a href="#">Feed Management</a>
+                            </li>
+                            <li>
+                                <a href="#">FCR</a>
+                            </li>
+                        </ul>
+                    </li>                    
+                    
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-share"></i> Basic Info<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Basic Information</a>
+                            </li>
+                            <li>
+                                <a href="#">Bank Info</a>
+                            </li>
+                            <li>
+                                <a href="#">Licenses</a>
+                            </li>
+                        </ul>
+                    </li>                    
+                    
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-university"></i> Administration<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Board of directors</a>
+                            </li>
+                            <li>
+                                <a href="#">Shareholders Details</a>
+                            </li>
+                            <li>
+                                <a href="#">Members</a>
+                            </li>
+                        </ul>
+                    </li>     
+                    
+                    
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-laptop"></i> Masters<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Vendor Master</a>
+                            </li>
+                            <li>
+                                <a href="#">Tax Master</a>
+                            </li>
+                            <li>
+                                <a href="#">Products Category<span class="fa arrow"></span></a>
+                            </li>
+                            <li>
+                                <a href="#">Products<span class="fa arrow"></span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#" class="waves-effect waves-dark"><i class="fa fa-shopping-cart"></i> Inventory<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Sale</a>
+                            </li>
+                            <li>
+                                <a href="#">Sale Return Form</a>
+                            </li>
+                            <li>
+                                <a href="#">Sale Return Details</a>
+                            </li>
+                            <li>
+                                <a href="#">Purchase</a>
+                            </li>
+                            <li>
+                                <a href="#">Purchase Return</a>
+                            </li>
+                            <li>
+                                <a href="#">Stock Details</a>
+                            </li>
+                            <li>
+                                <a href="#">Stock Status</a>
+                            </li>
+                            <li>
+                                <a href="#">Damaged Products</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+
+            </div>
+            
+        </nav>
+        
+        <!-- /. NAV SIDE  -->
+        
+      
+
+    
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+	
+	<!-- Bootstrap Js -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	
+	<script src="{% static 'materialize/js/materialize.min.js' %}"></script>
+	
+    <!-- Metis Menu Js -->
+    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
+    <!-- Morris Chart Js -->
+    <script src="{% static 'js/morris/raphael-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/morris/morris.js' %}"></script>
+	
+	
+	<script src="{% static 'js/easypiechart.js' %}"></script>
+	<script src="{% static 'js/easypiechart-data.js' %}"></script>
+	
+	 <script src="{% static 'js/Lightweight-Chart/jquery.chart.js' %}"></script>
+	
+    <!-- Custom Js -->
+    <script src="{% static 'js/custom-scripts.js' %}"></script> 
+ 
+
+</body>
+
+</html>

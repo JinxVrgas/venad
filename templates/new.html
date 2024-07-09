@@ -1,0 +1,29 @@
+<script>
+    $(document).ready(function () {
+        $(document).on('change', 'select[name="product_drop[]"]', function () {
+            var selectedOption = $(this).val();
+            var $row = $(this).closest('tr');
+            
+            $.ajax({
+                url: '/your-url_products/', // Django view URL
+                type: 'POST',
+                data: {
+                    'selected_option': selectedOption,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+                },
+                success: function (response) {
+                    $row.find('input[name="hsncode[]"]').val(response.hsncode);
+                    $row.find('input[name="r1-price[]"]').val(response.r1);
+                    $row.find('input[name="r2-price[]"]').val(response.r2);
+                    $row.find('input[name="r3-price[]"]').val(response.r3);
+                    $row.find('input[name="cgst[]"]').val(response.cgst);
+                    $row.find('input[name="sgst[]"]').val(response.sgst);
+                    $row.find('input[name="igst[]"]').val(response.igst);
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log('Error:', errmsg);
+                }
+            });
+        });
+    });
+    </script>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .financial-year {
+            font-size: 18px;
+            color: rgb(73, 73, 73);
+            margin-right: 20px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            font-size: 14px;
+        }
+        .container {
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            box-sizing: border-box;
+        }
+        .header, .content, .footer {
+            border: 1px solid #000;
+            padding: 10px;
+            background-color: white;
+        }
+        .header table, .content table, .footer table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .header td, .content td, .footer td {
+            border: 1px solid #000;
+            padding: 5px;
+        }
+        .header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 18px;
+        }
+        .content .table-header, .footer .table-header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        .section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .section .left, .section .right {
+            width: 48%;
+        }
+        .section .left {
+            text-align: left;
+        }
+        .section .right {
+            text-align: right;
+        }
+        .green-box {
+            background-color: #4caf50;
+            color: white;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        .centered {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .buttons button {
+            margin: 5px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .buttons button:nth-child(2) {
+            background-color: #28a745;
+        }
+        .acknowledgement {
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .acknowledgement .invoice-info, .acknowledgement .receiver {
+            text-align: right;
+        }
+        .acknowledgement .invoice-info span, .acknowledgement .receiver span {
+            display: block;
+            font-size: 12px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header">
+            <div class="navbar2">
+                <p class="financial-year">Invoice</p>
+    
+            </div>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <img src="{% static 'img/logo.jpg' %}" alt="Logo" style="width: 100px;">
+                    </td>
+                    <td colspan="2">
+                        <h1>Bill of Supply</h1>
+                    </td>
+                    <td colspan="2">
+                        <input type="checkbox"> Original For Recipient<br>
+                        <input type="checkbox"> Duplicate For Transporter<br>
+                        <input type="checkbox"> Triplicate For Supplier
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <strong>BILL TO</strong><br>
+                        {{ sale.customer_name }}<br>
+                    </td>
+                    <td style="text-align: right;" colspan="3">
+                        <strong>VENAD POULTRY FARMERS PRODUCER CO LTD, KOTTARAKKARA</strong><br>
+                        No XIV/542, Opp. Railway Station, Kottarakkara, Kollam, Kerala-691506<br>
+                        Mobile: 0474 245 6225<br>
+                        Email: venadpfpc@gmail.com<br>
+                        Website: venadfarms.com
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container">
+            <div class="content">
+                <table>
+                    <tr class="table-header">
+                        <td>SL.NO</td>
+                        <td>ITEM_NAME</td>
+                        <td>HSN/SAC</td>
+                        <td>QTY</td>
+                        <td>UNIT</td>
+                        <td>PRICE/UNIT</td>
+                        <td>DISCOUNT(%)</td>
+                        <td>TAXABLE_AMOUNT</td>
+                        <td>GST</td>
+                        <td>AMOUNT</td>
+                    </tr>
+                    {% for item in prod %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.product_code.product_name }}</td>
+                        <td>{{ item.product_code.hsn_code_description.hs_code }}</td>
+                        <td>{{ item.qty }}</td>
+                        <td>{{ item.product_code.product_unit }}</td>
+                        <td>₹ {{ item.price }}</td>
+                        <td>{{ item.discount }}</td>
+                        <td>{{ item.tamount }}</td>
+                        <td>₹ {{ item.sgstamount|add:item.cgstamount|add:item.igstamount|floatformat:2 }} ({{ item.cgstamount|floatformat:2 }} + {{ item.sgstamount|floatformat:2 }} + {{ item.igstamount|floatformat:2 }})</td>
+                        <td>₹ {{ item.netamount|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td style="text-align: right;" colspan="9">Sub Total</td>
+                        <td>₹ {{ total_tamount }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="10">Invoice in Words: Only/-</td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" class="payment-mode">Payment Mode: {{ sale.mop }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="footer">
+                <table>
+                   
+                    <tr class="total">
+                        <td colspan="3">Old Balance</td>
+                        <td>₹ {{ sale.old_balance }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="3">Gross amount</td>
+                        <td>₹ {{ sale.net_total }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="3">Discount Amount</td>
+                        <td>₹ {{ sale.discount }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="3">Paid Amount</td>
+                        <td>₹ {{ sale.received_amount }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="3">Balance</td>
+                        <td>₹ {{sale.new_balance }}</td>
+                    </tr>
+                </table>
+                <div class="terms">
+                    <p>Terms & Conditions</p>
+                    <p>Thanks For Doing Business With Us!</p>
+                </div>
+                <div class="bank-details">
+                    <p>Bank Details</p>
+                    <p>Bank Name: Kerala State Co-Operative Bank, Bharanicavu</p>
+                    <p>Bank Account No.: 111264806000012</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="left">
+                    <div class="green-box">Thanks For Doing Business With Us!</div>
+                    <div class="green-box">
+                        <strong>Bank Details</strong><br>
+                        Bank Name: Kerala State Co-Operative Bank, Bharanicavu<br>
+                        Bank Account No.: 111264806000012<br>
+                        Bank IFSC Code: KSBK0001112<br>
+                        Account Holder's Name: Venad Poultry Farmers Producer Company Limited, Kottarakkara
+                    </div>
+                </div>
+                <div class="right">
+                    <div style="border: 1px solid #ccc; padding: 5px;">
+                        SCAN AND PAY
+                    </div>
+                </div>
+            </div>
+
+            <div class="centered">
+                <div>For, Venad Poultry Farmers Producer Company Limited</div>
+                <div>Authorised Signatory & Seal</div>
+            </div>
+
+            <hr>
+
+            <div class="acknowledgement">
+                <div class="receiver">
+                    <span style="text-align: left;">KAYAL VARAM</span>
+                    <span style="text-align: left;">SASTHAM COTTA</span>
+                </div>
+                <div class="invoice-info">
+                    <span>INVOICE.NO : {{sale.invoice}}</span>
+                    <span>DATE : {{ sale.sale_date|date:"d-m-Y" }}</span>
+                    <span>INVOICE.AMOUNT : {{ sale.received_amount }}</span>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="printBtn">Print POS</button>
+                <button id="printPDF">Generate PDF</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+        document.getElementById('printPDF').addEventListener('click', function() {
+            const element = document.getElementById('page-wrapper');
+            html2pdf().from(element).set({
+                margin: [0, 0, 0, 0],
+                filename: 'invoice.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            }).save();
+        });
+    </script>
+
+    </script>
+</body>
+</html>

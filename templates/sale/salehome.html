@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% include 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shareholder Information</title>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <style>
+        /* Hide CSV, PDF, Excel buttons */
+        .dt-buttons {
+            display: none !important;
+        }
+
+        .financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 700px; /* Adjust the margin as needed */
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            margin-right: 100px;
+            padding: 5px;
+        }
+        .search-container button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+       
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        .edit-delete-buttons {
+            text-align: center;
+        }
+        .edit-delete-buttons a {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header">
+            <div class="navbar2">
+                <p class="financial-year">Sale Details</p>
+                <ol style="margin-right: 20px;" class="breadcrumb"><br>
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="/dashboard/"> &nbsp;&nbsp;Home</a></li>
+                    <li>Back to add</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="container mt-4" style="background-color: white;">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="search-container">
+                        <button style="margin-left: 800px; margin-top: 20px;" class="btn btn-danger btn-sm" onclick="window.location.href='/addsale/'"><i class="fa fa-pencil-square-o"></i>&nbsp; Add Sale</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 table-container">
+                    <table id="saleTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>SINO</th>
+                                <th>SALE_DATE</th>
+                                <th>INVOICE</th>
+                                <th>CUSTOMER_NAME</th>
+                                <th>TOTAL_QTY</th>
+                                <th>SALE_AMOUNT</th>
+                                <th>OLD_BALANCE</th>
+                                <th>DISCOUNT</th>
+                                <th>SHAREHOLDER_DISCOUNT(%)</th>
+                                <th>NET_TOTAL</th>
+                                <th>RECEIVED_AMOUNT</th>
+                                <th>NEW_BALANCE</th>
+                                <th>VIEW/INVOICE</th>
+                                <th>DELETE</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in sale %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ sale.sale_date }}</td>
+                                <td>{{ sale.invoice }}</td>
+                                <td>{{ sale.customer_name}}</td>
+                                <td>{{ sale.total_qty }}</td>
+                                <td>{{ sale.sale_amount }}</td>
+                                <td>{{ sale.old_balance }}</td>
+                                <td>{{ sale.discount }}</td>
+                                <td>{{ sale.shareholder_discount }}</td>
+                                <td>{{ sale.net_total }}</td>
+                                <td>{{ sale.received_amount }}</td>
+                                <td>{{ sale.new_balance }}</td>
+                                <td class="edit-delete-buttons">
+                                    <a href="/invoice/{{ sale.id}}" ><i class="fa fa-file"></i></a>  
+                                </td>
+                                <td class="edit-delete-buttons">
+                                    <a href="/deletesale/{{ sale.id}}" onclick="return confirm('Do you want to delete this entry?');"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#saleTable').DataTable();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+{% include 'base.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 550px; /* Adjust the margin 
+            as needed */
+        }
+        .container {
+            width: 70%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .header1 {
+            text-align: center;
+            background-color: #bae4ba;
+            color: #046204;
+            margin-bottom: 20px;
+            line-height: 0;
+        }
+        .photo-upload {
+            text-align: right;
+            margin-bottom: 20px;
+            margin-left: 600px;
+        }
+        .photo-upload img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .photo-upload input {
+            margin-top: 10px;
+        }
+        .header h1, .header1 p {
+            margin: 0;
+            line-height: 1.5;
+        }
+        .form-group {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+            padding-right: 250px;
+        }
+        .form-group label {
+            width: 20%;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 20px;
+        }
+        .form-group input {
+            width: 70%;
+            height: 30%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group input[type="date"] {
+            width: 30%;
+            height: 30%;
+        }
+        .form-group input[type="file"] {
+            width: auto;
+        }
+        .signature {
+            text-align: center;
+            margin-top: 20px;
+            padding-left: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .signature img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+        }
+        .signature input {
+            margin-top: 10px;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons .cancel {
+            background-color: #d9534f;
+            color: white;
+            margin-right: 10px;
+        }
+        .buttons .save {
+            background-color: #5cb85c;
+            color: white;
+        }
+        .navbar2 {
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header"> 
+            <div class="navbar2">
+                <p class="financial-year">Shareholders Details</p>
+                <ol style="margin-right: 20px;" class="breadcrumb"><br>
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="/dashboard/"> &nbsp;&nbsp;Home</a></li>
+                    <li>Administration</li>
+                    <li>Shareholder details</li>
+                    <li class="active">Add Shareholder</li>
+                </ol> 
+            </div>					
+        </div>
+        <div class="container">
+            <div class="header1">
+                <p><b>KANJIRAMATTOM AGRO PRODUCER COMPANY LTD</b></p>
+                <p><b>Reg. No. UO1820KL2019PTC057573</b></p>
+                <p><b>KANJIRAMATTOM – 686585</b></p>
+                <p style="color: #000000; line-height: 2.4;"><b>SHARE HOLDERS RESUME</b></p>
+            </div>
+            <form action="/submit_shareholder/" method="post"  enctype="multipart/form-data"> {% csrf_token %}
+                <div class="photo-upload">
+                    <img id="photo-preview" src="{% static 'img/no-image.jpg' %}" alt="Photo Preview">
+                    <input type="file" id="photo" name="photo" accept="image/*" onchange="previewPhoto()">
+                </div>
+   
+                    <div class="form-group">
+                        <label for="shareholderName">Shareholder Name</label>
+                        <input type="text" id="shareholderName" name="shareholderName" placeholder="Enter Shareholder Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="shareholderID">Shareholder ID</label>
+                        <input type="text" id="shareholderID" name="shareholderID" value="{{member_id}}" readonly>
+                    </div>
+        
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Enter Shareholder Address">
+                </div>
+                <div class="form-group">
+                    <label for="pin">PIN</label>
+                    <input type="text" id="pin" name="pin" placeholder="PINCODE">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" placeholder="Age">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone" placeholder="Enter Phone Number">
+                </div>
+                <div class="form-group">
+                    <label for="dob">DOB</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+                <div class="form-group">
+                    <label for="joiningDate">Joining Date</label>
+                    <input type="date" id="joiningDate" name="joiningDate">
+                </div>
+                <div class="form-group">
+                    <label for="aadhar">Aadhar Number</label>
+                    <input type="text" id="aadhar" name="aadhar" placeholder="Enter Shareholder Aadhar Number">
+                </div>
+                <div class="form-group">
+                    <label for="pan">Pan Number</label>
+                    <input type="text" id="pan" name="pan" placeholder="Enter Shareholder Pan Number">
+                </div>
+                <div class="form-group">
+                    <label for="bankName">Bank Name</label>
+                    <input type="text" id="bankName" name="bankName" placeholder="Bank Name">
+                </div>
+                <div class="form-group">
+                    <label for="accountNumber">Bank Account Number</label>
+                    <input type="text" id="accountNumber" name="accountNumber" placeholder="Bank Account Number">
+                </div>
+                <div class="form-group">
+                    <label for="branch">Branch</label>
+                    <input type="text" id="branch" name="branch" placeholder="Branch">
+                </div>
+                <div class="form-group">
+                    <label for="ifsc">IFSC Code</label>
+                    <input type="text" id="ifsc" name="ifsc" placeholder="IFSC Code">
+                </div>
+                <div class="form-group">
+                    <label for="openingBalance">Opening Balance(Purchase)</label>
+                    <input type="text" id="openingBalance" name="openingBalance" placeholder="Opening Balance(Purchase)">
+                </div>
+                <div class="form-group">
+                    <label for="noOfShares">NO.Of Shares</label>
+                    <input type="text" id="noOfShares" name="noOfShares" placeholder="NO.Of Shares">
+                </div>
+                <div class="form-group">
+                    <label for="dhalam">Name Of Dhalam/Reference</label>
+                    <input type="text" id="dhalam" name="dhalam" placeholder="Name Of Dhalam/Reference">
+                </div>
+                <div class="form-group">
+                    <label for="nomineeName">Nominee Name</label>
+                    <input type="text" id="nomineeName" name="nomineeName" placeholder="Nominee Name">
+                </div>
+                <div class="form-group">
+                    <label for="relation">Relation</label>
+                    <input type="text" id="relation" name="relation" placeholder="Relation">
+                </div>
+                <div class="form-group">
+                    <label for="annualTurnover">Annual Turnover</label>
+                    <input type="text" id="annualTurnover" name="annualTurnover" placeholder="Annual Turnover">
+                </div>
+                <div class="signature">
+                    <label for="signature">Signature of shareholder</label>
+                    <img id="signature-preview" src="#" alt="Signature Preview" style="display:none;">
+                    <input type="file" id="signature" name="signature" accept="image/*" onchange="previewSignature()">
+                </div>
+                <div class="buttons">
+                    <button type="button" class="cancel" onclick="window.location.href='/shareholdershome/'">Cancel</button>
+                    <button type="submit" class="save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function previewPhoto() {
+            const file = document.getElementById('photo').files[0];
+            const preview = document.getElementById('photo-preview');
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "{% static 'img/no-image.jpg' %}";
+            }
+        }
+       
+      
+            reader.onloadend = function() {
+                var img = document.getElementById("photo-preview");
+                img.src = reader.result;
+                img.style.display = "block";
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                img.src = "";
+                img.style.display = "none";
+            }
+        
+        function previewSignature() {
+            const file = document.getElementById('signature').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                var img = document.getElementById("signature-preview");
+                img.src = reader.result;
+                img.style.display = "block";
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                img.src = "";
+                img.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

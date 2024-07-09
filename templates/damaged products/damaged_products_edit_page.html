@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+    <title>Purchase</title>
+
+    <style>
+        .heading-margin {
+            margin-bottom: 20px;
+        }
+
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            font-size: 0.8em;
+            /* Further reduce button size */
+            padding: 0.2rem 0.4rem;
+            /* Further reduce padding */
+        }
+
+        .btn-icon i {
+            margin-right: 3px;
+            /* Reduce the gap between icon and text */
+        }
+
+        .navbar2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .financial-year,
+        .current-date {
+            margin: 25;
+            margin-left: 40%;
+            font-size: x-large;
+            font-weight: bolder;
+        }
+
+        .breadcrumb {
+            margin: 0;
+            padding: 0;
+            background: none;
+        }
+
+        .breadcrumb li {
+            display: inline;
+            font-size: 12px;
+        }
+
+        .breadcrumb li a {
+            text-decoration: none;
+        }
+
+        .add-button {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            margin-top: 5px;
+            /* Move the button down by 5 pixels */
+            margin-right: 50px;
+        }
+
+
+
+
+
+
+
+        .container {
+            background-color: #ffffff;
+
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            max-width: 1500px;
+
+            /* Ensure the container takes the full width */
+            padding: 10px;
+
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+
+            padding: 10px;
+            margin: 0 -20px 20px -20px;
+            color: #721c24;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .container .date {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 2;
+            padding: 8px;
+
+        }
+
+        .form-group .small-input {
+            flex: 0.5;
+        }
+
+        .form-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-buttons button {
+            padding: 10px 20px;
+
+            margin-left: 0px;
+            border: none;
+            border-radius: 5px;
+
+        }
+
+        .form-buttons .add-btn {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .form-buttons .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table th,
+        .form-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .form-table th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 10px;
+            background-color: #f8d7da;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-container h2 {
+            margin: 0;
+            margin-left: 5x;
+            /* Adds 10px space before the heading starts */
+        }
+
+
+
+
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .table-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-full {
+            flex: 1 1 100%;
+        }
+
+
+
+        .form-group button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .table-form input[type="text"] {
+            width: 90%;
+
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Additional styles for layout and responsiveness */
+        @media (min-width: 768px) {
+            .form-group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                width: 10;
+            }
+
+            .form-group label {
+                flex-basis: 40%;
+                /* Adjust as needed */
+                margin-right: 10px;
+            }
+
+            .form-group input[type="text"] {
+                flex-basis: 30%;
+                /* Adjust as needed */
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .form-buttons .save-btn {
+                background-color: #007bff;
+                /* Blue color for save button */
+                color: #fff;
+                margin-right: 10px;
+                /* Add some spacing between buttons */
+            }
+
+            .form-buttons .cancel-btn {
+                background-color: #dc3545;
+                /* Red color for cancel button */
+                color: #fff;
+            }
+
+
+        }
+
+
+        .vendor_Add_btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+
+        }
+
+        .form-group select {
+            width: 80%;
+            height: 10%;
+            padding: 10px;
+
+            border-radius: 3px;
+            /* Optional: to make the corners rounded */
+
+
+        }
+    </style>
+
+
+
+
+</head>
+{% include 'base.html' %}
+
+<body>
+
+
+    <div id="page-wrapper">
+        <div class="header">
+            <div class="navbar2">
+                <p class="financial-year">Add Damaged Products </p>
+
+
+                <ol class="breadcrumb">
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="#">
+                            &nbsp;&nbsp;Home</a></li>
+                    <li class="active">Back to Add</li>
+                </ol>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header-container">
+                <h2>PURCHASE FORM</h2>
+                <div>{{ current_date|date:"d-m-Y " }}</div>
+            </div>
+
+
+
+            <form name="form1" method="POST" action="/damaged_prod_add/">{% csrf_token %}
+                <div class="form-group">
+
+                    <table style="margin-left: 0;">
+                        <tr>
+                            <td>Date<br><input style=" margin-left: 0; width: 20%;" type="text" id="reciept_date"
+                                    name="reciept_date" value='{{ current_date|date:"d-m-Y " }}' readonly> </td>
+
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-buttons">
+                                    <button type="button" class="add-btn" style=" margin-left: 0;"
+                                        onclick="addRow()">Add</button>
+
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+
+                    </table>
+
+                </div>
+
+
+
+
+
+                <div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <div class="table-form">
+                                    <table class="table table-bordered" id="purchasetable">
+                                        <thead style="background-color: #343a40; color: #ffffff;">
+                                            <tr>
+
+
+
+
+
+                                                <th>sl&nbsp;No</th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRODUCT&nbsp;NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DAMAGED&nbsp;QTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURRENT&nbsp;STOCK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STOCK&nbsp;BALANCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>Delete
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" name="serial_number[]" value="${serialNumber++}" readonly></td>
+                                                <td><select name="product_drop[]"  class="form-control">
+                                                            <option value="">--SELECT--</option>
+                                                            {% for i in prod %}
+                                                            <option value="{{i.id}}">{{i.product_name}}</option>
+                                                            {% endfor %}
+                                                        </select></td>
+                                                <td><input type="text" name="damaged_qty[]" id="damaged_qty[]" oninput="updateStock(this)"></td>
+                                                <td>
+                                                    <select name="unit[]" class="form-control">
+                                                            <option value="">--SELECT--</option>
+                                                            <option value="Gram">Gram</option>
+                                                            <option value="KG">KG</option>
+                                                            <option value="NO">NO</option>
+                                                            <option value="Dozen">Dozen</option>
+                                                            <option value="Barrel">Barrel</option>
+                                                            <option value="ML">ML</option>
+                                                            <option value="LTR">LTR</option>
+                                                            <option value="BAGS">BAGS</option>
+                                                            <option value="Sq.Ft">Sq.Ft</option>
+                                                            <option value="Inches">Inches</option>
+                                                            <option value="Feet">Feet</option>
+                                                            <option value="Litres">Litres</option>
+                                                        </select>
+                                                    </td>
+                                                <td><input type="text" name="current_stock[]"></td>
+                                                <td><input type="text" name="new_unit[]" id="new_unit[]"></td>
+                                                
+                                                <td><input type="text" name="stock_balance[]" ></td>
+                                                
+                                                
+                                                <td><input type="button" class="btn btn-danger" value="delete" name="column1[]" onclick = "deleteRow(this)"></td>
+                                            </tr>
+                                            <!-- Existing rows will be added dynamically -->
+                                        </tbody>
+
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        
+
+
+                        <script>
+                           
+                            function updateStock(input) {
+                                const row = input.closest('tr');
+                                const balance_cell = row.querySelector('input[name="stock_balance[]"]');
+
+                                const current = parseFloat(row.querySelector('input[name="current_stock[]"]').value);
+                                const damaged = parseFloat(row.querySelector('input[name="damaged_qty[]"]').value);
+                                
+
+                                var balance = current - damaged;
+                               
+                                balance_cell.value = balance;
+                            }
+
+
+                            function deleteRow(button) {
+                                const row = button.closest('tr');
+                                row.parentNode.removeChild(row);
+                                serialNumber -= 1;
+                                updateRowNumbers();
+                            }
+
+                            function updateRowNumbers() {
+                                const rows = document.querySelectorAll('#purchasetable tbody tr');
+                                rows.forEach((row, index) => {
+                                    row.cells[0].innerText = index + 1;
+                                });
+                            }
+                            function trying() {
+                                document.getElementById("hsncode[]").value = ",sdfn,sdn";
+                            }
+
+
+                        </script>
+
+                        <script>
+                            $(document).ready(function () {
+                                $(document).on('change', 'select[name="product_drop[]"]', function () {
+                                    var selectedOption = $(this).val();
+                                    var $row = $(this).closest('tr');
+
+                                    $.ajax({
+                                        url: '/your-url_products/', // Django view URL
+                                        type: 'POST',
+                                        data: {
+                                            'selected_option': selectedOption,
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+                                        },
+                                        success: function (response) {
+                                            $row.find('input[name="current_stock[]"]').val(response.currrent);
+                                            $row.find('input[name="new_unit[]"]').val(response.unit);
+
+
+
+                                        },
+                                        error: function (xhr, errmsg, err) {
+                                            console.log('Error:', errmsg);
+
+                                        }
+                                    });
+                                });
+                            });
+
+
+                        </script>
+                        <div class="form-buttons">
+
+                            <button type="submit" class="save-btn">Save</button>
+                            <button type="button" class="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+            </form>
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

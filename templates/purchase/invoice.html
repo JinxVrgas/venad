@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-container {
+            width: 100%;
+            border: 1px solid #000;
+            background-color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .invoice-header,
+        .invoice-footer {
+            text-align: center;
+        }
+
+        .invoice-header h1 {
+            margin-bottom: 10px;
+        }
+
+        .invoice-header h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details,
+        .invoice-summary {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .invoice-details th,
+        .invoice-details td,
+        .invoice-summary th,
+        .invoice-summary td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .invoice-details th {
+            background-color: #f2f2f2;
+        }
+
+        .invoice-summary {
+            margin-top: 20px;
+        }
+
+        .invoice-summary td {
+            text-align: right;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            .invoice-details,
+            .invoice-summary {
+                font-size: 12px;
+            }
+
+            .invoice-details th,
+            .invoice-details td,
+            .invoice-summary th,
+            .invoice-summary td {
+                padding: 5px;
+            }
+        }
+
+        .navbar2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            margin-left: auto;
+            /* Align to the right */
+        }
+
+        .financial-year {
+            margin-right: auto;
+        }
+        .generate-new-pdf {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding around text */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline from text */
+    display: inline-block; /* Inline-block for proper spacing */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.generate-new-pdf:hover {
+    background-color: #45A049; /* Darker green on hover */
+}
+.go-to-view {
+    background-color: #3399CC; /* Blue background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding around text */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline from text */
+    display: inline-block; /* Inline-block for proper spacing */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.go-to-view:hover {
+    background-color: #287BAA; /* Darker blue on hover */
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <div id="page-wrapper">
+        <div class="header">
+            
+        </div>
+
+        <div class="container">
+            <div class="invoice-container">
+                <table class="invoice-header">
+                    <tr>
+                        <th style="font-size: large;">Invoice {{invo.purchased_prod.bill_no}}</th>
+                        <td></td>
+
+                        <td>
+                            <strong>Invoice Date:</strong> <span id="invoice-date"></span><br>
+                        </td>
+                    </tr>
+                   
+                    <tr>
+                        <td>
+                            <strong>From</strong><br>
+                            {{invo.vendor.name}}<br>
+                           {{invo.vendor.address}}<br>
+                            Phone: {{invo.vendor.phone}}<br>
+                            Email: {{invo.vendor.e_mail}}<br>
+                        </td>
+                        <td>
+                            <strong>To</strong><br>
+                            Venad Poultry Farmers Producer Co Ltd, Kottarakara<br>
+                            No XIV/542, Opp. Railway Station, Kottarakara, Kollam,<br>
+                            Kerala-691506<br>
+                            STATE KERALA CODE: 32<br>
+                            PH: 0474 245 6225<br>
+                        </td>
+                        <td>
+                            <strong>Invoice</strong> <br>
+                            date : {{ current_date|date:"d-m-Y " }}<br>
+                            invoice {{invo.purchased_prod.bill_no}}
+                        </td>
+                        
+
+                    </tr>
+                </table>
+
+                <table class="invoice-details">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Purchase Rate</th>
+                            <th>MRP</th>
+                            <th>Discount</th>
+                            <th>Tax</th>
+                            <th>unit Price</th>
+                            <th>Amount</th>
+
+                            
+
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in prod %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.product.product_name}}</td>
+                            <td>{{i.qty}} {{i.unit}}</td>
+                            <td>{{i.prate}}</td>
+                            <td>{{i.MRP}}</td>
+                            <td>{{i.discount}}</td>
+                            <td>
+                                {{i.amount}} {{i.net_amount}} {{i.discount}}
+                               
+                            </td>
+                            <td>{{i.MRP}}</td>
+                            <td>{{i.amount}}</td>
+
+                            
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td>TOTAL</td>
+                            <td>{{invo.purchased_prod.qty_total}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{invo.purchased_prod.total_amount}}</td>
+                            <td>{{invo.purchased_prod.total_amount}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="invoice-summary" style="border: none;">
+                    <tbody>
+                        <tr>
+                            <td>Amount Chargeable (In Words)</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            <td>{{invo.purchased_prod.total_amount}}</td>
+                           
+                            
+                        </tr>
+                        <tr>
+                            <td>Old Balance</td>
+                             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            <td>{{invo.purchased_prod.old_balalnce}}</td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            <td>{{invo.purchased_prod.total_discount}}</td>
+                        </tr>
+                        <tr>
+                            <td>Net Total</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            <td>{{invo.purchased_prod.total_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td>Cash Paid</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            
+                            <td>{{invo.purchased_prod.paid_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td>Balance</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                            <td>{{invo.purchased_prod.new_balance}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="invoice-footer">
+                    <p>Cash Paid (In Words)</p>
+                    <p>{{invo.purchased_prod.paid_amount}}</p>
+                </div>
+                <button class = "generate-new-pdf" onclick="printInvoice()">Print Invoice</button>
+
+                <button class = "go-to-view" onclick="window.location.href='/purchase_det_page/'">Go to view</button>
+            </div>
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/number-to-words"></script>
+
+    <script>
+        function printInvoice() {
+            window.print();
+        }
+
+        document.getElementById('invoice-date').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+
+</html>

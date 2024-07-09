@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+    <title>Purchase</title>
+
+    <style>
+        .heading-margin {
+            margin-bottom: 20px;
+        }
+
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            font-size: 0.8em;
+            /* Further reduce button size */
+            padding: 0.2rem 0.4rem;
+            /* Further reduce padding */
+        }
+
+        .btn-icon i {
+            margin-right: 3px;
+            /* Reduce the gap between icon and text */
+        }
+
+        .navbar2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .financial-year,
+        .current-date {
+            margin: 25;
+            margin-left: 40%;
+            font-size: x-large;
+            font-weight: bolder;
+        }
+
+        .breadcrumb {
+            margin: 0;
+            padding: 0;
+            background: none;
+        }
+
+        .breadcrumb li {
+            display: inline;
+            font-size: 12px;
+        }
+
+        .breadcrumb li a {
+            text-decoration: none;
+        }
+
+        .add-button {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            margin-top: 5px;
+            /* Move the button down by 5 pixels */
+            margin-right: 50px;
+        }
+
+
+
+
+
+
+
+        .container {
+            background-color: #ffffff;
+
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            max-width: 1500px;
+
+            /* Ensure the container takes the full width */
+            padding: 10px;
+
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+
+            padding: 10px;
+            margin: 0 -20px 20px -20px;
+            color: #721c24;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .container .date {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 2;
+            padding: 8px;
+
+        }
+
+        .form-group .small-input {
+            flex: 0.5;
+        }
+
+        .form-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-buttons button {
+            padding: 10px 20px;
+
+            margin-left: 0px;
+            border: none;
+            border-radius: 5px;
+
+        }
+
+        .form-buttons .add-btn {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .form-buttons .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table th,
+        .form-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .form-table th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 10px;
+            background-color: #f8d7da;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-container h2 {
+            margin: 0;
+            margin-left: 10px;
+            /* Adds 10px space before the heading starts */
+        }
+
+
+
+
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .table-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-full {
+            flex: 1 1 100%;
+        }
+
+
+
+        .form-group button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .table-form input[type="text"] {
+            width: 90%;
+
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Additional styles for layout and responsiveness */
+        @media (min-width: 768px) {
+            .form-group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                width: 10;
+            }
+
+            .form-group label {
+                flex-basis: 40%;
+                /* Adjust as needed */
+                margin-right: 10px;
+            }
+
+            .form-group input[type="text"] {
+                flex-basis: 30%;
+                /* Adjust as needed */
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .form-buttons .save-btn {
+                background-color: #007bff;
+                /* Blue color for save button */
+                color: #fff;
+                margin-right: 10px;
+                /* Add some spacing between buttons */
+            }
+
+            .form-buttons .cancel-btn {
+                background-color: #dc3545;
+                /* Red color for cancel button */
+                color: #fff;
+            }
+
+
+        }
+
+
+        .vendor_Add_btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+
+        }
+
+        .form-group select {
+            width: 80%;
+            height: 10%;
+            padding: 10px;
+
+            border-radius: 3px;
+            /* Optional: to make the corners rounded */
+
+
+        }
+    </style>
+
+
+
+
+</head>
+{% include 'base.html' %}
+
+<body>
+    <script>
+        var a = document.form1.suppliers_name
+    </script>
+
+    <div id="page-wrapper">
+        <div class="header">
+            <div class="navbar2">
+                <p class="financial-year">Purchase Details Edit</p>
+
+
+                <ol class="breadcrumb">
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="#">
+                            &nbsp;&nbsp;Home</a></li>
+                    <li class="active">Back to Add</li>
+                </ol>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header-container">
+                <h2>PURCHASE FORM</h2>
+                <div>{{ current_date|date:"d-m-Y " }}</div>
+            </div>
+
+
+
+            <form name="form1" method="POST" action="/purchase_edit/">{% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        <tr>
+
+                            <td>Bill Number<br><input style="width: 80%" type="text" id="bill_number" name="bill_number"
+                                    value="{{pur.0.purchased_prod.bill_no}}" readonly></td>
+
+                            <td>Ref.No(internal number)<br><input style="width: 80%" type="text" id="ref_number"
+                                    name="ref_number" value="{{pur.0.purchased_prod.ref_no}}" readonly></td>
+
+                            <td>Purchase Date<br><input value="{{pur.0.purchased_prod.purchase_date}}" style="width: 80%" type="date" id="purchase_date"
+                                    name="purchase_date" required readonly></td>
+
+                            <td>date of reciept<br><input style="width: 80%;" type="text" id="reciept_date"
+                                    name="reciept_date" value='{{ current_date|date:"d-m-Y " }}' readonly></td>
+
+                            <td>MOP<br><select class="waves-effect waves-dark" name="MOP" id="MOP" required>
+
+                                    <option value="{{pur.0.purchased_prod.mop}}" selected>{{pur.0.purchased_prod.mop}}</option>
+                                    <option value="cash">CASH</option>
+                                    <option value="bank">BANK</option>
+                                    <option value="credit">CREDIT</option>
+
+
+
+                                </select></td>
+                            <td>Tax Mode<br><select class="waves-effect waves-dark" name="tax_mode" id="tax_mode" required>
+
+                                    <option value="{{pur.0.purchased_prod.tax_mode}}" selected>{{pur.0.purchased_prod.tax_mode}}</option>
+                                    <option value="gst">GST</option>
+                                    <option value="vat">VAT</option>
+                                    <option value="none">NONE</option>
+
+
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Supplier Name<br><select class="waves-effect waves-dark" name="dropdown" id="dropdown">
+
+                                <option selected value="{{pur.0.vendor.id}}">{{pur.0.vendor.name}}</option>
+                                {% for i in vend %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select></td>
+                            <td>State Type<br><input style="width: 80%" type="text" id="state_type" name="state_type"
+                                    readonly value="{{pur.0.vendor.state_type}}">
+                            </td>
+                            <td>Place of Sale <br><input style="width: 80%" type="text" id="sale_place"
+                                    name="sale_place" readonly value="{{pur.0.vendor.state}}"></td>
+                            <td>GSTIN no<br><input style="width: 80%;" type="text"  id="gstin_no"
+                                    name="gstin_no" readonly value="{{pur.0.vendor.gst}}" >
+                            </td>
+                            <td>Tax Type<br><input style="width: 80%;" type="text" id="tax_type" name="tax_type"
+                                    readonly value="{{pur.0.vendor.taxtype}}">
+                            </td>
+
+                        </tr>
+                        <tr>
+
+                            <td> <br><br>
+                        <tr>
+                            <td><button type="button" onclick="window.location.href='/v_add_page/'"
+                                    class="vendor_Add_btn">Add New Vendor</button></td>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+                </div>
+
+
+
+
+
+                <div>
+
+                    <!-- <div class="form-buttons">
+                        <button type="button" class="add-btn" onclick="addRow()">Add</button>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <div class="table-form">
+                                    <table class="table table-bordered" id="purchasetable">
+                                        <thead style="background-color: #343a40; color: #ffffff;">
+                                            <tr>
+
+                                                <th>Sl&nbsp;No
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ITEM&nbsp;NAME&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HSNCODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MRP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;SPRICE(R1)&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;SPRICE(R2)&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;SPRICE(R3)&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;DISCOUNT&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;AMOUNT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;TAXABLE&nbsp;AMOUNT</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGST_%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;CGST_AMOUNT&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SGST_%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;SGST_AMOUNT&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGST&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </th>
+                                                <th>&nbsp;&nbsp;&nbsp;IGST&nbsp;AMOUNT&nbsp;&nbsp;</th>
+
+                                                <th>&nbsp;&nbsp;&nbsp;&nbsp;NETAMOUNT&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                        {% for k in pur %}
+                                        <tr>
+                                            <td><input type="text" name="serial_number[]" value="{{forloop.counter}}" readonly></td>
+                                <td><select name="product_drop[]"  class="form-control" >
+                                            <option selected value="{{k.product.id}}">{{k.product.product_name}}</option>
+                                            {% for i in pur %}
+                                            <option value="{{i.id}}">{{i.product.product_name}}</option>
+                                            {% endfor %}
+                                        </select></td>
+                                <td><input type="text" value="{{ k.product.hsn_code_description.hs_code }}" name="hsncode[]" id="hsncode[]" readonly></td>
+                                <td><input type="text" value="{{k.qty}}" name="qty[]"></td>
+                                <td>
+                                    <select name="unit[]" class="form-control">
+                                            <option selected value="{{k.unit}}">{{k.unit}}</option>
+                                            <option value="Gram">Gram</option>
+                                            <option value="KG">KG</option>
+                                            <option value="NO">NO</option>
+                                            <option value="Dozen">Dozen</option>
+                                            <option value="Barrel">Barrel</option>
+                                            <option value="ML">ML</option>
+                                            <option value="LTR">LTR</option>
+                                            <option value="BAGS">BAGS</option>
+                                            <option value="Sq.Ft">Sq.Ft</option>
+                                            <option value="Inches">Inches</option>
+                                            <option value="Feet">Feet</option>
+                                            <option value="Litres">Litres</option>
+                                        </select>
+                                    </td>
+                                <td><input type="text" value="{{k.prate}}" name="prate[]"></td>
+                                <td><input type="text" value="{{k.MRP}}" name="mrp[]" oninput="updateAmount(this)" ></td>
+                                <td><input type="text" value="{{k.product.r1price}}" name="r1-price[]" id="r1-price[]" readonly></td>
+                                <td><input type="text" value="{{k.product.r2price}}" name="r2-price[]" id="r2-price[]" readonly></td>
+                                <td><input type="text" value="{{k.product.r3price}}" name="r3-price[]" id="r3-price[]" readonly></td>
+                                <td><input type="text" value="{{k.discount}}" name="discount[]"  oninput="netAmount(this)" ></td>
+                                <td><input type="text" value="{{k.amount}}" name="amount[]" id = "amount[]" readonly ></td>
+                                <td><input type="text" value="{{k.taxable_amount}}" name="taxable-amt[]" id="taxable-amt[]" oninput="cgstCalculator()" readonly></td>
+                                <td><input type="text" value="{{k.product.hsn_code_description.cgst}}" name="cgst[]" id="cgst[]" readonly></td>
+                                <td><input type="text" value="{{k.cgst_amount}}" name="cgst-amt[]" id="cgst-amt[]" readonly></td>
+                                <td><input type="text" value="{{k.product.hsn_code_description.sgst}}" name="sgst[]" id="sgst[]" readonly></td>
+                                <td><input type="text" value="{{k.sgst_amount}}" name="sgst-amt[]" id="sgst-amt[]" readonly></td>
+                                <td><input type="text" value="{{k.product.hsn_code_description.igst}}" name="igst[]" id="igst[]" readonly></td>
+                                <td><input type="text" value="{{k.igst_amount}}" name="igst-amt[]" id="igst-amt[]" readonly></td>
+                                <td><input type="text" value="{{k.net_amount}}" name="net-amt[]" id="net-amt[]"   ></td>
+                                <td><input type="button" class="btn btn-danger" value="delete" name="column1[]" onclick = "window.location.href='/del_pur_row/{{k.id}}'"></td>
+                                            
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                        
+                                   
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <table>
+                            <tr>
+
+                                <td>Gross Amount<br><input style="width: 20%" type="text" id="gross-amount"
+                                        name="gross-amount" value="{{pur.0.purchased_prod.gross_amount}}" onclick="calculateNetTotalSum()"></td>
+                                <td>Taxable Amount<br><input style="width: 20%" type="text" id="taxable-amount"
+                                        name="taxable-amount" value="{{pur.0.purchased_prod.taxable_amount}}"></td>
+                                <td>Purchase Tax<br><input style="width: 20%" type="text" id="purchase-tax"
+                                        name="purchase-tax" value="{{pur.0.purchased_prod.purchase_tax}}"></td>
+                                <td>&nbsp;</td>
+
+                                <td>Paid Amount<br><input style="width: 50%;" type="text" id="paid-amount"
+                                        name="paid-amount" oninput="amountBalance()" value="{{pur.0.purchased_prod.paid_amount}}"></td>
+                            </tr>
+                            <tr>
+
+                                <td>Qty Total<br><input style="width: 20%" type="text" id="qty-total" name="qty-total" value="{{pur.0.purchased_prod.qty_total}}">
+                                </td>
+                                <td>Total Discount<br><input style="width: 20%" type="text" id="total-discount" value="{{pur.0.purchased_prod.total_discount}}"
+                                        name="total-discount"></td>
+                                <td>Old Balance<br><input style="width: 20%" type="text" id="old-balance" value="{{pur.0.purchased_prod.old_balalnce}}"
+                                        name="old-balance"></td>
+
+                                <td></td>
+
+
+                                <td>Total Amount<br><input style="width: 50%; background-color: #343a40; color: white; "
+                                        type="text" id="total_amount" name="total_amount" value="{{pur.0.purchased_prod.total_amount}}"></td>
+                            </tr>
+
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>New Balance<br>
+                                    <input style="width: 50%; background-color: #343a40; color: white;" type="text"
+                                         id="new-balance" name="new-balance" value="{{pur.0.purchased_prod.new_balance}}">
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                            </tr>
+                        </table>
+                        <script>
+                            let serialNumber = "{{pur.len}}";
+                           
+                    
+                            function addRow() {
+                                const table = document.getElementById('purchasetable').getElementsByTagName('tbody')[0];
+                                const row = table.insertRow();
+                                row.innerHTML = `
+                                <td><input type="text" name="serial_number[]" value="${serialNumber++}" readonly></td>
+                                <td><select name="product_drop[]"  class="form-control">
+                                            <option value="">--SELECT--</option>
+                                            {% for i in pur %}
+                                            <option value="{{i.product.id}}">{{i.product.product_name}}</option>
+                                            {% endfor %}
+                                        </select></td>
+                                <td><input type="text" value="{{ pur.product.product_name }}" name="hsncode[]" id="hsncode[]" readonly></td>
+                                <td><input type="text" name="qty[]"></td>
+                                <td>
+                                    <select name="unit[]" class="form-control">
+                                            <option value="">--SELECT--</option>
+                                            <option value="Gram">Gram</option>
+                                            <option value="KG">KG</option>
+                                            <option value="NO">NO</option>
+                                            <option value="Dozen">Dozen</option>
+                                            <option value="Barrel">Barrel</option>
+                                            <option value="ML">ML</option>
+                                            <option value="LTR">LTR</option>
+                                            <option value="BAGS">BAGS</option>
+                                            <option value="Sq.Ft">Sq.Ft</option>
+                                            <option value="Inches">Inches</option>
+                                            <option value="Feet">Feet</option>
+                                            <option value="Litres">Litres</option>
+                                        </select>
+                                    </td>
+                                <td><input type="text" name="prate[]"></td>
+                                <td><input type="text" name="mrp[]" oninput="updateAmount(this)" ></td>
+                                <td><input type="text" name="r1-price[]" id="r1-price[]" readonly></td>
+                                <td><input type="text" name="r2-price[]" id="r2-price[]" readonly></td>
+                                <td><input type="text" name="r3-price[]" id="r3-price[]" readonly></td>
+                                <td><input type="text" name="discount[]" value=0 oninput="netAmount(this)" ></td>
+                                <td><input type="text" name="amount[]" id = "amount[]" readonly value=0></td>
+                                <td><input type="text" name="taxable-amt[]" id="taxable-amt[]" oninput="cgstCalculator()" readonly></td>
+                                <td><input type="text" name="cgst[]" id="cgst[]" readonly></td>
+                                <td><input type="text" name="cgst-amt[]" id="cgst-amt[]"></td>
+                                <td><input type="text" name="sgst[]" id="sgst[]" readonly></td>
+                                <td><input type="text" name="sgst-amt[]" id="sgst-amt[]"></td>
+                                <td><input type="text" name="igst[]" id="igst[]" readonly></td>
+                                <td><input type="text" name="igst-amt[]" id="igst-amt[]"></td>
+                                <td><input type="text" name="net-amt[]" id="net-amt[]"   ></td>
+                                <td><input type="button" class="btn btn-danger" value="delete" name="column1[]" onclick = "deleteRow(this)"></td>`;
+                            }
+
+                            function updateAmount(input) {
+                                const row = input.closest('tr');
+                                const qty = parseFloat(row.querySelector('input[name="qty[]"]').value);
+                                const mrp = parseFloat(row.querySelector('input[name="mrp[]"]').value);
+                                const amountCell = row.querySelector('input[name="amount[]"]');
+                                const taxableAmountCell = row.querySelector('input[name="taxable-amt[]"]');
+
+                                const amount = qty * mrp;
+
+                                if (!isNaN(amount)) {
+                                    amountCell.value = amount.toFixed(2); // Sets the value as a string but retains the number formatting
+                                    taxableAmountCell.value = amount.toFixed(2);
+
+                                    updateGst(input, amount);
+                                } else {
+                                    amountCell.value = '';
+                                    taxableAmountCell.value = '';
+
+                                    updateGst(input, 0);
+                                }
+                            }
+
+
+
+                            function updateGst(input, amount) {
+                                const row = input.closest('tr');
+                                const sgst = parseFloat(row.querySelector('input[name="sgst[]"]').value) || 0;
+                                const cgst = parseFloat(row.querySelector('input[name="cgst[]"]').value) || 0;
+                                const igst = parseFloat(row.querySelector('input[name="igst[]"]').value) || 0;
+                                const amountCell = parseFloat(row.querySelector('input[name="amount[]"]').value) || 0;
+
+                                const cgstamountCell = row.querySelector('input[name="cgst-amt[]"]');
+                                const sgstamountCell = row.querySelector('input[name="sgst-amt[]"]');
+                                const igstamountCell = row.querySelector('input[name="igst-amt[]"]');
+
+                                if (!isNaN(amountCell)) {
+
+                                    const cgstAmount = (cgst * amount) / 100;
+                                    const sgstAmount = amount * (sgst / 100);
+                                    const igstAmount = amount * (igst / 100);
+                                    cgstamountCell.value = cgstAmount.toFixed(2);
+                                    sgstamountCell.value = sgstAmount.toFixed(2);
+                                    igstamountCell.value = igstAmount.toFixed(2);
+
+                                } else {
+                                    amountCell.value = 0;
+
+                                    cgstamountCell.value = 0;
+                                    sgstamountCell.value = 0;
+                                    igstamountCell.value = 0;
+                                }
+                            }
+                            function netAmount(input) {
+                                const row = input.closest('tr');
+                                const sgst = parseFloat(row.querySelector('input[name="sgst-amt[]"]').value) || 0;
+                                const cgst = parseFloat(row.querySelector('input[name="cgst-amt[]"]').value) || 0;
+                                const igst = parseFloat(row.querySelector('input[name="igst-amt[]"]').value) || 0;
+                                const amount = parseFloat(row.querySelector('input[name="amount[]"]').value) || 0;
+                                const discount = parseFloat(row.querySelector('input[name="discount[]"]').value) || 0;
+
+                                const netamountCell = row.querySelector('input[name="net-amt[]"]');
+
+                                if (!isNaN(amount)) {
+                                    const net = amount + cgst + sgst + igst - discount;
+                                    netamountCell.value = net.toFixed(2);
+                                } else {
+                                    netamountCell.value = 0;
+                                }
+
+                                calculateNetTotalSum();
+                            }
+                            let taxsum = 0;
+                            function calculateNetTotalSum() {
+                                const table = document.getElementById('purchasetable');
+                                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                                let netsum = 0;
+                                let qtysum = 0;
+                                let discountsum = 0;
+
+
+
+                                for (let i = 0; i < rows.length; i++) {
+                                    const netTotalCell = rows[i].querySelector('input[name="net-amt[]"]');
+                                    const qtyTotalCell = rows[i].querySelector('input[name="qty[]"]');
+                                    const discountTotalCell = rows[i].querySelector('input[name="discount[]"]');
+
+                                    const netTotalValue = parseFloat(netTotalCell.value) || 0;
+                                    const qtyTotalValue = parseFloat(qtyTotalCell.value) || 0;
+                                    const discountTotalValue = parseFloat(discountTotalCell.value) || 0;
+
+
+                                    netsum += parseInt(netTotalValue, 10);
+                                    qtysum += parseInt(qtyTotalValue, 10);
+                                    discountsum += parseInt(discountTotalValue, 10);
+
+                                }
+                                // document.getElementById("purchase-tax").value = taxsum;
+                                document.getElementById("gross-amount").value = parseFloat(netsum);
+                                document.getElementById("total_amount").value = parseFloat(netsum);
+                                document.getElementById("taxable-amount").value = parseFloat(netsum);
+                                document.getElementById("qty-total").value = parseFloat(qtysum);
+                                document.getElementById("total-discount").value = parseFloat(discountsum);
+
+                            }
+                            function amountBalance() {
+                                let totalamt = parseFloat(document.getElementById("gross-amount").value);
+                                let oldbal = parseFloat(document.getElementById("old-balance").value);
+                                let paidamt = parseFloat(document.getElementById("paid-amount").value);
+                                document.getElementById("new-balance").value = oldbal + totalamt - paidamt;
+                            }
+
+                            function deleteRow(button) {
+                                const row = button.closest('tr');
+                                row.parentNode.removeChild(row);
+                                serialNumber -= 1;
+                                updateRowNumbers();
+                                calculateNetTotalSum();
+                            }
+
+                            function updateRowNumbers() {
+                                const rows = document.querySelectorAll('#purchasetable tbody tr');
+                                rows.forEach((row, index) => {
+                                    row.cells[0].innerText = index + 1;
+                                });
+                            }
+                            function clicker(text) {
+
+
+
+
+
+
+                            }
+
+                        </script>
+
+
+                        <script>
+                            $(document).ready(function () {
+                                $(document).on('change', 'select[name="product_drop[]"]', function () {
+                                    var selectedOption = $(this).val();
+                                    var $row = $(this).closest('tr');
+                                    
+                                    $.ajax({
+                                        url: '/your-url_products/', // Django view URL
+                                        type: 'POST',
+                                        data: {
+                                            'selected_option': selectedOption,
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+                                        },
+                                        success: function (response) {
+                                            $row.find('input[name="hsncode[]"]').val(response.hsncode);
+                                            $row.find('input[name="r1-price[]"]').val(response.r1);
+                                            $row.find('input[name="r2-price[]"]').val(response.r2);
+                                            $row.find('input[name="r3-price[]"]').val(response.r3);
+                                            $row.find('input[name="cgst[]"]').val(response.cgst);
+                                            $row.find('input[name="sgst[]"]').val(response.sgst);
+                                            $row.find('input[name="igst[]"]').val(response.igst);
+
+                                        },
+                                        error: function (xhr, errmsg, err) {
+                                            console.log('Error:', errmsg);
+
+                                        }
+                                    });
+                                });
+                            });
+
+
+                        </script>
+
+
+
+                        <script>
+                            $(document).ready(function () {
+                                $('#dropdown').change(function () {
+                                    var selectedOption = $(this).val();
+                                    $.ajax({
+                                        url: '/your-url/', // Django view URL
+                                        type: 'POST',
+                                        data: {
+                                            'selected_option': selectedOption,
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+                                        },
+                                        success: function (response) {
+                                            document.getElementById("sale_place").value = response.state;
+                                            document.getElementById("state_type").value = response.state_type;
+                                            document.getElementById("gstin_no").value = response.gst;
+                                            document.getElementById("tax_type").value = response.taxtype;
+                                            document.getElementById("old-balance").value = response.bal;
+                                        },
+                                        error: function (xhr, errmsg, err) {
+                                            console.log('Error:', errmsg);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        <div class="form-buttons">
+
+                            <button type="submit" class="save-btn">Save</button>
+                            <button type="button" onclick="window.location.href='/purchase_det_page/'" class="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+            </form>
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

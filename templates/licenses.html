@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .heading-margin {
+            margin-bottom: 20px;
+        }
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            font-size: 0.8em; /* Further reduce button size */
+            padding: 0.2rem 0.4rem; /* Further reduce padding */
+        }
+        .btn-icon i {
+            margin-right: 3px; /* Reduce the gap between icon and text */
+        }
+        .navbar2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .financial-year, .current-date {
+            margin: 0;
+        }
+        .breadcrumb {
+            margin: 0;
+            padding: 0;
+            background: none;
+        }
+        .breadcrumb li {
+            display: inline;
+            font-size: 12px;
+        }
+        .breadcrumb li a {
+            text-decoration: none;
+        }
+        .add-button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .custom-edit-button {
+             font-size: 0.8em; /* Adjust the font size as needed */
+             padding: 0.2rem 0.4rem; /* Adjust the padding as needed */
+        }
+        .custom-delete-button {
+            font-size: 0.8em; /* Adjust the font size as needed */
+            padding: 0.2rem 0.4rem; /* Adjust the padding as needed */
+            margin-left: 5px; /* Adjust the margin as needed to position it next to the edit button */
+        }
+        .custom-delete-button i {
+            margin-right: 3px; /* Adjust the gap between icon and text */
+        }
+    </style>
+</head>
+<body>
+{% include 'base.html' %}
+
+<div id="page-wrapper">
+    <div class="header">
+        <div class="navbar2">
+            <p class="financial-year">Licenses</p>
+            <ol class="breadcrumb">
+                <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="#"> &nbsp;&nbsp;Home</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container mt-5 position-relative">
+        <div class="add-button-container">
+            <a href="/licensesadd/" class="btn btn-primary btn-icon">
+                <i class="fas fa-plus"></i> Add License
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="licenseTable">
+                        <thead>
+                            <tr>
+                                <th>SINO.</th>
+                                <th>LICENSE NAME</th>
+                                <th>LICENSE NUMBER</th>
+                                <th>EXPIRY REMINDER</th>
+                                <th>EXPIRY DATE</th>
+                                <th>LICENSE PRINT</th>
+                                <th>EDIT/DELETE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for license in licenses %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ license.license_name }}</td>
+                                <td>{{ license.license_number }}</td>
+                                <td>{{ license.expiry_remainder }}</td>
+                                <td>{{ license.expiry_date }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary btn-icon custom-print-button" onclick="window.open('/licensesprint/', '_blank')">
+                                    <i class="fas fa-print"></i> Print</button>
+                                </td>
+                                <td>
+                                    <form method="post">{% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ license.id }}">
+                                        <button formaction="/licensesedit/" class="btn btn-sm btn-primary btn-icon custom-edit-button">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <a href="/delrowlicenses/{{ license.id }}" class="btn btn-sm btn-danger btn-icon custom-delete-button" onclick="return confirm('Do you want to delete this entry?');">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var table = $('#financialYearTable').DataTable();
+
+        $('#financialYearTable').on('mousedown', '.custom-delete-button', function(e) {
+            var currentPage = table.page(); // Capture the current page
+            var row = $(this).closest('tr');
+            var data = table.row(row).data();
+            var rowId = $(this).closest('form').find('input[name="id"]').val(); // Retrieve the ID from the form
+
+            if (!confirm('Do you want to delete this entry?')) {
+                e.preventDefault(); // Prevent the default action if cancel button clicked
+            } else {
+                // Perform your delete operation here
+                $.ajax({
+                    type: 'GET',
+                    url: '/delrow/' + rowId,
+                    success: function(response) {
+                        // Remove the row from the table
+                        table.row(row).remove().draw(false);
+                        // Set the page back to the current page after deletion
+                        table.page(currentPage).draw(false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

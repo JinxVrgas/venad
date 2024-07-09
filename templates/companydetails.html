@@ -1,0 +1,256 @@
+
+{% load static %}
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Information</title>
+    <link rel="stylesheet" href="">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1F2837;
+    margin: 0;
+    padding: 0;
+}
+
+
+.header1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffcccc; /* light red background */
+    padding: 10px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.company-info {
+    flex-grow: 1;
+}
+
+.update-button {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+.financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 700px; /* Adjust the margin 
+            as needed */
+        }
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.content {
+    padding: 20px;
+    background-color: #fafafa;
+}
+
+.company-details {
+    margin: 20px 0;
+}
+
+.company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.company-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.update-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #d9534f;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.update-button:hover {
+    opacity: 0.9;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    color: #333;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header"> 
+          <div class="navbar2">
+              <p class="financial-year">Basic Information</p>
+                      <ol style="margin-right: 20px;" class="breadcrumb"><br>
+                    <li><i style="font-size: 10px; padding-top: 5px;"  class="fa fa-tachometer"></i><a href="/dashboard/"> &nbsp;&nbsp;Home</a></li>
+                    <li>Basic info</li>
+                    <li class="active">Basic information</li>
+                  </ol> 
+            </div>					
+        </div>
+    <div class="container">
+        <div class="header1">
+            <p style="color: #d9534f;"><b>Company Details</b></p>
+            <form action = "/update_company_view/" method="post">{% csrf_token %}
+                <button type = "submit" class="update-button">Update Company Information</button>
+            </form>
+        </div>
+        <div class="content">
+            <div class="company-details">
+                <div class="logo">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Company Logo">
+                </div>
+                <table>
+                    <tr>
+                        <td>Corporate Identification Number (CIN)</td>
+                        <td><a href="#">{{ company.corporate_identification_number }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Company Name</td>
+                        <td>{{ company.company_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Registration Number</td>
+                        <td>{{ company.registration_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>RoC</td>
+                        <td>{{ company.roc }}</td>
+                    </tr>
+                    <tr>
+                        <td>Company Category</td>
+                        <td>{{ company.company_category }}</td>
+                    </tr>
+                    <tr>
+                        <td>Company SubCategory</td>
+                        <td>{{ company.company_subcategory }}</td>
+                    </tr>
+                    <tr>
+                        <td>Class Of Company</td>
+                        <td>{{ company.class_of_company }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date of Incorporation</td>
+                        <td>{{ company.date_of_incorporation }}</td>
+                    </tr>
+                    <tr>
+                        <td>Age Of Company</td>
+                        <td>{{ company.age_of_company }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Members</td>
+                        <td>{{ company.total_members }}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>{{ company.address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number (1)</td>
+                        <td>{{ company.phone_number_1 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number (2)</td>
+                        <td>{{ company.phone_number_2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email Id (1)</td>
+                        <td>{{ company.email_id_1 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email Id (2)</td>
+                        <td>{{ company.email_id_2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td><a href="{{ company.website }}">{{ company.website }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>GSTIN</td>
+                        <td>{{ company.gstin }}</td>
+                    </tr>
+                    <tr>
+                        <td>Company Activity</td>
+                        <td>{{ company.company_activity }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

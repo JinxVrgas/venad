@@ -1,0 +1,37 @@
+$(document).ready(function () {
+    $(document).on('change', 'select[name="product_drop[]"]', function () {
+        var selectedOption = $(this).val();
+        var $row = $(this).closest('tr');
+        alert(selectedOption)
+        $.ajax({
+            url: '/damaged_prod_ajax/', // Django view URL
+            type: 'POST',
+            data: {
+                'selected_option': selectedOption,
+                'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+            },
+            success: function (response) {
+                
+            },
+            error: function (xhr, errmsg, err) {
+                console.log('Error:', errmsg);
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+`
+                                  

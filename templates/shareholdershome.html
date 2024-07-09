@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+{% include 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shareholder Information</title>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <style>
+  
+    /* Hide CSV, PDF, Excel buttons */
+    .dt-buttons {
+        display: none !important;
+    }
+
+    .financial-year {
+            font-size: 25px;
+            padding-top: 10px;
+            color: rgb(73, 73, 73);
+            margin-right: 600px; /* Adjust the margin 
+            as needed */
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            margin-right: 100px;
+            padding: 5px;
+
+        }
+        .search-container button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .edit-delete-buttons {
+            text-align: center;
+        }
+        .edit-delete-buttons a {
+            margin: 0 5px;
+                }
+                /* Existing CSS */
+
+.dropdown-menu {
+    min-width: 200px;
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+.dropdown-menu a {
+    display: block;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+.dropdown-menu a:hover {
+    background-color: #f8f9fa;
+}
+
+/* New CSS for column toggle dropdown positioning */
+#columnDropdown {
+    
+    left: 710px; /* Adjust as needed */
+}
+
+
+</style>
+
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="header"> 
+            <div class="navbar2">
+                <p class="financial-year">Shareholders Details</p>
+                <ol style="margin-right: 20px;" class="breadcrumb"><br>
+                    <li><i style="font-size: 10px; padding-top: 5px;" class="fa fa-tachometer"></i><a href="/dashboard/"> &nbsp;&nbsp;Home</a></li>
+                    <li>Administration</li>
+                    <li class="active">Shareholder Details</li>
+                </ol> 
+            </div>					
+        </div>
+    
+        <div class="container mt-4">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="search-container">
+                        <input type="text" id="memberSearch" class="form-control" placeholder="Member ID" style="width: 200px;">
+                        <button class="btn btn-success btn-sm" onclick="window.location.href='/addshareholder/'"><i class="fa fa-pencil-square-o"></i>&nbsp; Add Shareholder</button>
+                        <button class="btn btn-primary btn-sm" ><i class="fa fa-download"></i>&nbsp;Generate PDF</button>
+                        <div class="dropdown">
+                            <button class="btn btn-info btn-sm" type="button" id="exportButton">
+                                Export
+                            </button>
+                            <div class="dropdown-menu" id="exportDropdown">
+                                <a class="dropdown-item" id="exportCsv">CSV</a>
+                                <a class="dropdown-item" id="exportPdf">PDF</a>
+                                <a class="dropdown-item" id="exportExcel">Excel</a>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger btn-sm" id="columnToggleButton">SELECT COLUMNS</button>
+<div class="dropdown-menu" id="columnDropdown" style="top: 60%;">
+    <a class="dropdown-item" data-column="0">SINO</a>
+    <a class="dropdown-item" data-column="1">MEMBER ID</a>
+    <a class="dropdown-item" data-column="2">SHAREHOLDER NAME</a>
+    <a class="dropdown-item" data-column="3">DATE OF BIRTH</a>
+    <a class="dropdown-item" data-column="4">ADDRESS</a>
+    <a class="dropdown-item" data-column="5">PHONE NUMBER</a>
+    <a class="dropdown-item" data-column="6">AADHAAR NO</a>
+    <a class="dropdown-item" data-column="7">PAN NO</a>
+    <a class="dropdown-item" data-column="8">SHARE HELD</a>
+    <a class="dropdown-item" data-column="9">DATE OF JOINING</a>
+    <a class="dropdown-item" data-column="10">BANK DETAILS</a>
+    <a class="dropdown-item" data-column="11">NOMINEE DETAILS</a>
+    <a class="dropdown-item" data-column="12">OPENING BALANCE(PURCHASE)</a>
+    <a class="dropdown-item" data-column="13">CURRENT BALANCE(PURCHASE)</a>
+</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 table-container">
+                    <table id="shareholderTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>SINO</th>
+                                <th>MEMBER ID</th>
+                                <th>SHAREHOLDER NAME</th>
+                                <th>DATE OF BIRTH</th>
+                                <th>ADDRESS</th>
+                                <th>PHONE NUMBER</th>
+                                <th>AADHAAR NO</th>
+                                <th>PAN NO</th>
+                                <th>SHARE HELD</th>
+                                <th>DATE OF JOINING</th>
+                                <th>BANK DETAILS</th>
+                                <th>NOMINEE DETAILS</th>
+                                <th>OPENING BALANCE(PURCHASE)</th>
+                                <th>CURRENT BALANCE(PURCHASE)</th>
+                                <th>EDIT/DELETE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for shareholder in shareholders %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ shareholder.shareholder_id }}</td>
+                                <td>{{ shareholder.shareholder_name }}</td>
+                                <td>{{ shareholder.dob }}</td>
+                                <td>{{ shareholder.address }}</td>
+                                <td>{{ shareholder.phone }}</td>
+                                <td>{{ shareholder.aadhar }}</td>
+                                <td>{{ shareholder.pan }}</td>
+                                <td>{{ shareholder.no_of_shares }}</td>
+                                <td>{{ shareholder.joining_date}}</td>
+                                <td>{{ shareholder.bank_name }},{{ shareholder.branch }},{{ shareholder.account_number }}, {{ shareholder.ifsc }}</td>
+                                <td>{{ shareholder.nominee_name }}</td>
+                                <td>{{ shareholder.opening_balance }}</td>
+                                <td>{{ shareholder.current_balance }}</td>
+                                <td class="edit-delete-buttons">
+                                    <a href="/editshareholder/{{ shareholder.id}}"><i class="fa fa-pencil-square-o"></i></a>
+                                    <a href="/delshareholder/{{ shareholder.id}}" onclick="return confirm('Do you want to delete this entry?');"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+    <script>$(document).ready(function() {
+        var table = $('#shareholderTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'csvHtml5',
+                    title: 'Shareholder Information',
+                    className: 'd-none',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Shareholder Information',
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+                    className: 'd-none',
+                    customize: function (doc) {
+                        doc.styles.tableHeader.fontSize = 8;
+                        doc.styles.tableBodyEven.fontSize = 8;
+                        doc.styles.tableBodyOdd.fontSize = 8;
+                        doc.defaultStyle.fontSize = 8;
+                    },
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: 'Shareholder Information',
+                    className: 'd-none',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+            ]
+        });
+    
+        $('#memberSearch').on('keyup', function() {
+            table.columns(1).search(this.value).draw();
+        });
+    
+        $('#exportCsv').on('click', function() {
+            table.button('.buttons-csv').trigger();
+        });
+    
+        $('#exportPdf').on('click', function() {
+            table.button('.buttons-pdf').trigger();
+        });
+    
+        $('#exportExcel').on('click', function() {
+            table.button('.buttons-excel').trigger();
+        });
+    
+        $('#exportButton').on('click', function() {
+            $('#exportDropdown').toggle();
+        });
+    
+        $('.btn-primary').on('click', function() {
+            table.button('.buttons-pdf').trigger();
+        });
+    
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#exportButton').length) {
+                $('#exportDropdown').hide();
+            }
+        });
+    
+        // Column visibility toggle functionality
+        $('#columnToggleButton').on('click', function() {
+            $('#columnDropdown').toggle();
+        });
+    
+        $('#columnDropdown a').on('click', function(e) {
+            e.preventDefault();
+            var columnIdx = $(this).data('column');
+    
+            // Hide all columns
+            table.columns().visible(false);
+    
+            // Show the selected column
+            table.column(columnIdx).visible(true);
+    
+            // Optionally highlight the selected column in the dropdown
+            $('#columnDropdown a').removeClass('active');
+            $(this).addClass('active');
+        });
+    
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#columnToggleButton').length) {
+                $('#columnDropdown').hide();
+            }
+        });
+    });
+    
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
